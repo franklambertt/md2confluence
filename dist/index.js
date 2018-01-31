@@ -64,12 +64,17 @@ inquirer.prompt(prompts).then(function (_answers) {
 
     // 1. Get the markdown file content
     fsp.readFile(pageData.mdfile, { encoding: 'utf8' }).then(function (fileData) {
+
+      fileData = fileData.replace(/{{/g, '*{{');
+      fileData = fileData.replace(/}}/g, '}**}*');
+
       // 2. Transform the content to Markdown Wiki
       var mdWikiData = markdown2confluence(fileData);
       var currentPage = void 0;
       var newContent = void 0;
 
       // preprocess
+      mdWikiData = mdWikiData.replace(/<br\/?><br\/?>/g, '\n');
       mdWikiData = mdWikiData.replace(/<br\/?>/g, '\n');
 
       // 3. Transform the Markdown Wiki to Storage (confluence scripting)
