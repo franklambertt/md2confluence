@@ -69,6 +69,9 @@ inquirer.prompt(prompts).then(function (_answers) {
       var currentPage = void 0;
       var newContent = void 0;
 
+      // preprocess
+      mdWikiData = mdWikiData.replace(/<br\/?>/g, '\n');
+
       // 3. Transform the Markdown Wiki to Storage (confluence scripting)
       return rp({
         method: 'POST',
